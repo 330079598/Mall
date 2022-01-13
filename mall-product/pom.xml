@@ -18,6 +18,13 @@
         <spring-cloud.version>2020.0.5</spring-cloud.version>
     </properties>
     <dependencies>
+
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.10.2</version>
+        </dependency>
+
         <dependency>
             <groupId>com.stone.mall</groupId>
             <artifactId>mall-common</artifactId>
@@ -36,6 +43,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>3.3.1</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
     <dependencyManagement>
