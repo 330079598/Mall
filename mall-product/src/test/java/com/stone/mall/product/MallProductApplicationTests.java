@@ -7,6 +7,8 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.stone.mall.product.entity.BrandEntity;
 import com.stone.mall.product.service.BrandService;
+import com.stone.mall.product.service.CategoryService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,16 +16,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @SpringBootTest
 class MallProductApplicationTests {
 
 
     @Autowired
     BrandService brandService;
+//    @Autowired
+//    OSSClient ossClient;
     @Autowired
-    OSSClient ossClient;
+    CategoryService categoryService;
+    
+    @Test
+    public void testFindPath(){
+        Long[] catelogPath = categoryService.findCatelogPath(225L);
+        log.info("完整路径：{}", Arrays.asList(catelogPath));
+    }
 
     @Test
     void contextLoads() {
@@ -60,11 +73,13 @@ class MallProductApplicationTests {
         System.out.println("上传完成。。。。");
     }
 
-    @Test
-    public void testUpload() throws FileNotFoundException {
-        InputStream inputStream = new FileInputStream("C:\\Users\\tao19\\Desktop\\iphone11.jpg");
-        ossClient.putObject("stone-mall-oss", "iphone11.jpg", inputStream);
-        ossClient.shutdown();
-        System.out.println("上传完成。。。。");
-    }
+//    @Test
+//    public void testUpload() throws FileNotFoundException {
+//        InputStream inputStream = new FileInputStream("C:\\Users\\tao19\\Desktop\\iphone11.jpg");
+//        ossClient.putObject("stone-mall-oss", "iphone11.jpg", inputStream);
+//        ossClient.shutdown();
+//        System.out.println("上传完成。。。。");
+//    }
+
+
 }
