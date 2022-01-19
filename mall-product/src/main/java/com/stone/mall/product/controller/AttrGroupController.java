@@ -51,7 +51,6 @@ public class AttrGroupController {
     @RequestMapping("/info/{attrGroupId}")
     //@RequiresPermissions("product:attrgroup:info")
     public R info(@PathVariable("attrGroupId") Long attrGroupId){
-        // TODO: 理解this用法
 		AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
         Long CatelogId = attrGroup.getCatelogId();
         Long[] path = categoryService.findCatelogPath(CatelogId);

@@ -26,6 +26,10 @@ mybatis-plus:
 server:
   port: 10000
 
+# 打印SQL语句并输出到文件中
 logging:
   level:
     com.stone.mall: debug
+  file:
+    name: C:\Stone\Code\Java\Logs\product\product.log
+

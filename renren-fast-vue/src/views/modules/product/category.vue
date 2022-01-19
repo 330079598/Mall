@@ -1,14 +1,6 @@
-
-
-
-
 <template>
   <div>
-    <el-switch
-      v-model="draggable"
-      active-text="开启拖拽"
-      inactive-text="关闭拖拽"
-    ></el-switch>
+    <el-switch v-model="draggable" active-text="开启拖拽" inactive-text="关闭拖拽"></el-switch>
     <el-button v-if="draggable" @click="batchSave">批量保存</el-button>
     <el-button type="danger" @click="batchDelete">批量删除</el-button>
     <el-tree
@@ -27,22 +19,18 @@
         <span>{{ node.label }}</span>
         <span>
           <el-button
-            v-if="node.level <= 2"
+            v-if="node.level <=2"
             type="text"
             size="mini"
             @click="() => append(data)"
-            >Append</el-button
-          >
-          <el-button type="text" size="mini" @click="edit(data)"
-            >edit</el-button
-          >
+          >Append</el-button>
+          <el-button type="text" size="mini" @click="edit(data)">edit</el-button>
           <el-button
-            v-if="node.childNodes.length == 0"
+            v-if="node.childNodes.length==0"
             type="text"
             size="mini"
             @click="() => remove(node, data)"
-            >Delete</el-button
-          >
+          >Delete</el-button>
         </span>
       </span>
     </el-tree>
@@ -61,10 +49,7 @@
           <el-input v-model="category.icon" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="计量单位">
-          <el-input
-            v-model="category.productUnit"
-            autocomplete="off"
-          ></el-input>
+          <el-input v-model="category.productUnit" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -99,15 +84,15 @@ export default {
         sort: 0,
         productUnit: "",
         icon: "",
-        catId: null,
+        catId: null
       },
       dialogVisible: false,
       menus: [],
       expandedKey: [],
       defaultProps: {
         children: "children",
-        label: "name",
-      },
+        label: "name"
+      }
     };
   },
 
@@ -120,7 +105,7 @@ export default {
     getMenus() {
       this.$http({
         url: this.$http.adornUrl("/product/category/list/tree"),
-        method: "get",
+        method: "get"
       }).then(({ data }) => {
         console.log("成功获取到菜单数据...", data.data);
         this.menus = data.data;
@@ -136,17 +121,17 @@ export default {
       this.$confirm(`是否批量删除【${catIds}】菜单?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           this.$http({
             url: this.$http.adornUrl("/product/category/delete"),
             method: "post",
-            data: this.$http.adornData(catIds, false),
+            data: this.$http.adornData(catIds, false)
           }).then(({ data }) => {
             this.$message({
               message: "菜单批量删除成功",
-              type: "success",
+              type: "success"
             });
             this.getMenus();
           });
@@ -157,11 +142,11 @@ export default {
       this.$http({
         url: this.$http.adornUrl("/product/category/update/sort"),
         method: "post",
-        data: this.$http.adornData(this.updateNodes, false),
+        data: this.$http.adornData(this.updateNodes, false)
       }).then(({ data }) => {
         this.$message({
           message: "菜单顺序等修改成功",
-          type: "success",
+          type: "success"
         });
         //刷新出新的菜单
         this.getMenus();
@@ -204,7 +189,7 @@ export default {
             catId: siblings[i].data.catId,
             sort: i,
             parentCid: pCid,
-            catLevel: catLevel,
+            catLevel: catLevel
           });
         } else {
           this.updateNodes.push({ catId: siblings[i].data.catId, sort: i });
@@ -220,7 +205,7 @@ export default {
           var cNode = node.childNodes[i].data;
           this.updateNodes.push({
             catId: cNode.catId,
-            catLevel: node.childNodes[i].level,
+            catLevel: node.childNodes[i].level
           });
           this.updateChildNodeLevel(node.childNodes[i]);
         }
@@ -267,7 +252,7 @@ export default {
       //发送请求获取当前节点最新的数据
       this.$http({
         url: this.$http.adornUrl(`/product/category/info/${data.catId}`),
-        method: "get",
+        method: "get"
       }).then(({ data }) => {
         //请求成功
         console.log("要回显的数据", data);
@@ -316,11 +301,11 @@ export default {
       this.$http({
         url: this.$http.adornUrl("/product/category/update"),
         method: "post",
-        data: this.$http.adornData({ catId, name, icon, productUnit }, false),
+        data: this.$http.adornData({ catId, name, icon, productUnit }, false)
       }).then(({ data }) => {
         this.$message({
           message: "菜单修改成功",
-          type: "success",
+          type: "success"
         });
         //关闭对话框
         this.dialogVisible = false;
@@ -336,11 +321,11 @@ export default {
       this.$http({
         url: this.$http.adornUrl("/product/category/save"),
         method: "post",
-        data: this.$http.adornData(this.category, false),
+        data: this.$http.adornData(this.category, false)
       }).then(({ data }) => {
         this.$message({
           message: "菜单保存成功",
-          type: "success",
+          type: "success"
         });
         //关闭对话框
         this.dialogVisible = false;
@@ -356,17 +341,17 @@ export default {
       this.$confirm(`是否删除【${data.name}】菜单?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           this.$http({
             url: this.$http.adornUrl("/product/category/delete"),
             method: "post",
-            data: this.$http.adornData(ids, false),
+            data: this.$http.adornData(ids, false)
           }).then(({ data }) => {
             this.$message({
               message: "菜单删除成功",
-              type: "success",
+              type: "success"
             });
             //刷新出新的菜单
             this.getMenus();
@@ -377,7 +362,7 @@ export default {
         .catch(() => {});
 
       console.log("remove", node, data);
-    },
+    }
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {
@@ -391,7 +376,7 @@ export default {
   updated() {}, //生命周期 - 更新之后
   beforeDestroy() {}, //生命周期 - 销毁之前
   destroyed() {}, //生命周期 - 销毁完成
-  activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+  activated() {} //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
 <style scoped>
