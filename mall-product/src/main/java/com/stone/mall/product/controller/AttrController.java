@@ -3,6 +3,7 @@ package com.stone.mall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.stone.mall.product.vo.AttrRespVo;
 import com.stone.mall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +30,12 @@ public class AttrController {
 
 
     // /product/attr/base/list/{catelogId}
-    @GetMapping("/base/list/{catelogId}")
+    @GetMapping("/{attrType}/list/{catelogId}")
     public R baseAttrList(@RequestParam Map<String, Object> params,
-                          @PathVariable("catelogId") Long catelogId) {
-        PageUtils page = attrService.queryBaseAttrPage(params, catelogId);
-        return R.ok().put("page",page);
+                          @PathVariable("catelogId") Long catelogId,
+                          @PathVariable("attrType") String type) {
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId, type);
+        return R.ok().put("page", page);
     }
 
     /**
@@ -51,18 +53,16 @@ public class AttrController {
      * 信息
      */
     @RequestMapping("/info/{attrId}")
-    //@RequiresPermissions("product:attr:info")
     public R info(@PathVariable("attrId") Long attrId) {
-        AttrEntity attr = attrService.getById(attrId);
+        AttrRespVo respVo = attrService.getAttrInfo(attrId);
 
-        return R.ok().put("attr", attr);
+        return R.ok().put("attr", respVo);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:attr:save")
     public R save(@RequestBody AttrVo attr) {
         attrService.saveAttr(attr);
 
@@ -73,9 +73,8 @@ public class AttrController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:attr:update")
-    public R update(@RequestBody AttrEntity attr) {
-        attrService.updateById(attr);
+    public R update(@RequestBody AttrVo attr) {
+        attrService.updateAttr(attr);
 
         return R.ok();
     }

@@ -24,8 +24,8 @@
           inactive-text="只能单个值"
           active-color="#13ce66"
           inactive-color="#ff4949"
-          :inactive-value="0"
           :active-value="1"
+          :inactive-value="0"
         ></el-switch>
       </el-form-item>
       <el-form-item label="可选值" prop="valueSelect">
