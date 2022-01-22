@@ -1,18 +1,15 @@
 package com.stone.mall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
+import com.stone.common.utils.PageUtils;
+import com.stone.common.utils.R;
+import com.stone.mall.product.service.AttrService;
 import com.stone.mall.product.vo.AttrRespVo;
 import com.stone.mall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.stone.mall.product.entity.AttrEntity;
-import com.stone.mall.product.service.AttrService;
-import com.stone.common.utils.PageUtils;
-import com.stone.common.utils.R;
-import sun.util.resources.cldr.ta.CalendarData_ta_LK;
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**

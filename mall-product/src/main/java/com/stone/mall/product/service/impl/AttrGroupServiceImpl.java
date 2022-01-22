@@ -5,14 +5,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stone.common.utils.PageUtils;
 import com.stone.common.utils.Query;
-import com.stone.mall.product.controller.AttrGroupController;
 import com.stone.mall.product.dao.AttrGroupDao;
 import com.stone.mall.product.entity.AttrGroupEntity;
 import com.stone.mall.product.service.AttrGroupService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
 import java.util.Map;
 
 
