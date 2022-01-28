@@ -30,9 +30,10 @@ import com.stone.common.utils.R;
 public class MemberController {
     @Autowired
     private MemberService memberService;
-
     @Autowired
     CouponFeignService couponFeignService;
+
+
 
     @RequestMapping("/coupons")
     public R test(){
@@ -47,7 +48,6 @@ public class MemberController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("member:member:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = memberService.queryPage(params);
 
@@ -70,7 +70,6 @@ public class MemberController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("member:member:save")
     public R save(@RequestBody MemberEntity member){
 		memberService.save(member);
 
@@ -81,7 +80,6 @@ public class MemberController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("member:member:update")
     public R update(@RequestBody MemberEntity member){
 		memberService.updateById(member);
 
@@ -92,10 +90,8 @@ public class MemberController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("member:member:delete")
     public R delete(@RequestBody Long[] ids){
 		memberService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

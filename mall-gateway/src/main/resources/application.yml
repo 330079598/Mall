@@ -18,6 +18,14 @@ spring:
           filters: # 路径重写
             - RewritePath=/api(?<segment>/?.*), /$\{segment}
 
+        # 商品服务网关拦截
+        - id: member_route
+          uri: lb://mall-member
+          predicates:
+            - Path=/api/member/**
+          filters: # 路径重写
+            - RewritePath=/api(?<segment>/?.*), /$\{segment}
+
         # 管理服务网关拦截
         - id: admin_route
           uri: lb://renren-fast
