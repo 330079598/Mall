@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +119,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 skuInfoEntity.setSaleCount(0L);
                 skuInfoEntity.setSpuId(infoEntity.getId());
                 skuInfoEntity.setSkuDefaultImg(defaultImg);
+                // sku的基本信息
                 skuInfoService.saveSkuInfo(skuInfoEntity);
                 Long skuId = skuInfoEntity.getSkuId();
                 List<SkuImagesEntity> imagesEntities = item.getImages().stream().map(img -> {
@@ -143,10 +145,14 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 SkuReductionTo skuReductionTo = new SkuReductionTo();
                 BeanUtils.copyProperties(item, skuReductionTo);
                 skuReductionTo.setSkuId(skuId);
-                R r1 = couponFeignService.saveSkuReduction(skuReductionTo);
-                if (r1.getCode() != 0) {
-                    log.error("远程保存spu优惠信息失败！");
+                skuReductionTo.setMemberPrice(item.getMemberPrice());
+                if (skuReductionTo.getFullCount() > 0 || skuReductionTo.getFullPrice().compareTo(new BigDecimal("0")) == 1) {
+                    R r0 = couponFeignService.saveSkuReduction(skuReductionTo);
+                    if (r0.getCode() != 0) {
+                        log.error("远程保存spu优惠信息失败！");
+                    }
                 }
+
             });
         }
     }

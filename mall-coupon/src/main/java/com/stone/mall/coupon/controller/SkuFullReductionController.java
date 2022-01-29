@@ -36,7 +36,6 @@ public class SkuFullReductionController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("coupon:skufullreduction:list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = skuFullReductionService.queryPage(params);
 

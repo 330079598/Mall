@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -46,18 +47,26 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
     @Override
     public void saveSkuReduction(SkuReductionTo reductionTo) {
         // 保存满减打折，会员价
+
+        // sms_sku_ladder
         SkuLadderEntity skuLadderEntity = new SkuLadderEntity();
         skuLadderEntity.setSkuId(reductionTo.getSkuId());
         skuLadderEntity.setFullCount(reductionTo.getFullCount());
         skuLadderEntity.setDiscount(reductionTo.getDiscount());
         skuLadderEntity.setAddOther(reductionTo.getCountStatus());
-        skuLadderService.save(skuLadderEntity);
+        if (reductionTo.getFullCount() > 0) {
+            skuLadderService.save(skuLadderEntity);
+        }
 
+        // sms_sku_full_reduction
         SkuFullReductionEntity skuFullReduction = new SkuFullReductionEntity();
         BeanUtils.copyProperties(reductionTo, skuFullReduction);
-        this.save(skuFullReduction);
+        if (skuFullReduction.getFullPrice().compareTo(new BigDecimal("0")) == 1) {
+            this.save(skuFullReduction);
+        }
 
-        List<MemberPrice> memberPriceList = reductionTo.getMemberPriceList();
+        // sms_member_price
+        List<MemberPrice> memberPriceList = reductionTo.getMemberPrice();
 
         List<MemberPriceEntity> collect = memberPriceList.stream().map(item -> {
             MemberPriceEntity priceEntity = new MemberPriceEntity();
