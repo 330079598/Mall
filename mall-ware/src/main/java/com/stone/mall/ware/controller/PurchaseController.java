@@ -30,6 +30,17 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
+
+    /**
+     * 未被领取的采购单
+     * /ware/purchase/unreceive/list
+     */
+    @RequestMapping("/unreceive/list")
+    public R unreceiveList(@RequestParam Map<String, Object> params){
+        PageUtils page = purchaseService.queryPageUnreceive(params);
+
+        return R.ok().put("page", page);
+    }
     /**
      * 列表
      */

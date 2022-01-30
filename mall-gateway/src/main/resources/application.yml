@@ -2,6 +2,14 @@ spring:
   cloud:
     gateway:
       routes:
+        # 库存服务网关拦截
+        - id: ware_route
+          uri: lb://mall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters: # 路径重写
+            - RewritePath=/api(?<segment>/?.*), /$\{segment}
+
         # 第三方服务网关拦截
         - id: third_party_route
           uri: lb://mall-third-party

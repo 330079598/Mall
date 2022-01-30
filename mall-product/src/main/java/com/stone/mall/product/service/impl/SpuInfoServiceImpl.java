@@ -181,12 +181,12 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }
 
         String brandId = (String) params.get("brandId");
-        if (StringUtils.isNotEmpty(brandId)) {
+        if (StringUtils.isNotEmpty(brandId) && !"0".equalsIgnoreCase(brandId)) {
             wrapper.eq("brand_id", brandId);
         }
 
         String catelogId = (String) params.get("catelogId");
-        if (StringUtils.isNotEmpty(catelogId)) {
+        if (StringUtils.isNotEmpty(catelogId) && !"0".equalsIgnoreCase(catelogId)) {
             wrapper.eq("catalog_id", catelogId);
         }
 
