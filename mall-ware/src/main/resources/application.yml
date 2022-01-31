@@ -10,6 +10,9 @@
         server-addr: 127.0.0.1:8848
   application:
     name: mall-ware
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 
 
 mybatis-plus:
@@ -20,6 +23,7 @@ mybatis-plus:
 
 server:
   port: 11000
+
 
 # 打印SQL语句并输出到文件中
 logging:
