@@ -28,6 +28,6 @@ server:
 # 打印SQL语句并输出到文件中
 logging:
   level:
-    com.stone: debug
+    com.stone.mall.ware: debug
   file:
     name: C:\Stone\Code\Java\Logs\ware\ware.log

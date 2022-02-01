@@ -9,7 +9,7 @@ package com.stone.common.constant;
 public class WareConstant {
     public enum PurchaseStatusEnum {
         CREATED(0, "新建"),
-        ASSIGNED(1, "销售属性"),
+        ASSIGNED(1, "已分配"),
         RECEIVED(2, "已领取"),
         FINISHED(3, "已完成"),
         HASERROR(4, "有异常");

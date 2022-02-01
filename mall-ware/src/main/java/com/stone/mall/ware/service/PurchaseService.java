@@ -5,6 +5,7 @@ import com.stone.common.utils.PageUtils;
 import com.stone.mall.ware.entity.PurchaseEntity;
 import com.stone.mall.ware.vo.MergerVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,5 +22,7 @@ public interface PurchaseService extends IService<PurchaseEntity> {
     PageUtils queryPageUnreceive(Map<String, Object> params);
 
     void mergePurchase(MergerVo mergerVo);
+
+    void received(List<Long> ids);
 }
 
