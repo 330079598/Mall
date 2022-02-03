@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stone.mall.ware.vo.MergerVo;
+import com.stone.mall.ware.vo.PurchaseDoneVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,13 @@ import com.stone.common.utils.R;
 public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
+
+
+    @PostMapping("/done")
+    public R finish(@RequestBody PurchaseDoneVo doneVo) {
+        purchaseService.done(doneVo);
+        return R.ok();
+    }
 
     /**
      * 领取采购单
@@ -85,7 +93,6 @@ public class PurchaseController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("ware:purchase:save")
     public R save(@RequestBody PurchaseEntity purchase) {
         purchaseService.save(purchase);
 
