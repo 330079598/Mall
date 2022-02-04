@@ -37,7 +37,6 @@
 import CategoryCascader from "../common/category-cascader";
 import BrandSelect from "../common/brand-select";
 import Spuinfo from "./spuinfo";
-import PubSub from 'pubsub-js'
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: { CategoryCascader, Spuinfo, BrandSelect },
@@ -66,7 +65,7 @@ export default {
   methods: {
     searchSpuInfo() {
       console.log("搜索条件", this.dataForm);
-      PubSub.publish("dataForm",this.dataForm);
+      this.PubSub.publish("dataForm",this.dataForm);
     }
   },
   //生命周期 - 创建完成（可以访问当前this实例）

@@ -25,6 +25,7 @@ public class AttrController {
     @Autowired
     private AttrService attrService;
 
+    // TODO:商品的规格参数回显 p100 前端404
 
     // /product/attr/base/list/{catelogId}
     @GetMapping("/{attrType}/list/{catelogId}")

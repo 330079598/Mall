@@ -1,5 +1,8 @@
 package com.stone.mall.ware.service.impl;
 
+import com.stone.common.utils.R;
+import com.stone.mall.ware.feigh.ProductFeignService;
+import com.sun.org.apache.bcel.internal.generic.I2F;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,8 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
 
     @Autowired
     WareSkuDao wareSkuDao;
+    @Autowired
+    ProductFeignService productFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -56,6 +61,19 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             wareSku.setSkuId(skuId);
             wareSku.setWareId(wareId);
             wareSku.setStock(skuNum);
+            wareSku.setStockLocked(0);
+            // 远程查询sku的名字,如果失败，事务无需回滚
+            // 方法一：使用try catch异常
+            // TODO: 后续
+            try {
+                R info = productFeignService.info(skuId);
+                Map<String, Object> data = (Map<String, Object>) info.get("skuInfo");
+                if (info.getCode() == 0) {
+                    wareSku.setSkuName((String) data.get("skuName"));
+                }
+            } catch (Exception e) {
+
+            }
             wareSkuDao.insert(wareSku);
         } else {
             wareSkuDao.addStock(skuId, wareId, skuNum);

@@ -16,7 +16,7 @@
         update `wms_ware_sku`
         set stock = stock + #{skuNum}
         where sku_id = #{skuId}
-          and wareId = #{wareId}
+          and ware_id = #{wareId}
     </update>
 
 </mapper>
