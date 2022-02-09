@@ -23,6 +23,12 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- 使用nacos做服务发现，实现自动定位服务。不引入这个包：访问服务提示503 Service Unavaliable
             由于springcloud2020弃用了Ribbon，因此Alibaba在2021版本nacos中删除了Ribbon的jar包，因此无法通过lb路由到指定微服务，出现了503情况。
             所以只需要引入springcloud loadbalancer包即可-->
