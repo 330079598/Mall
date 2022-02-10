@@ -11,20 +11,20 @@ import java.util.List;
  * @Description:
  */
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class Catelog2Vo {
-    private String catelog1Id; // 1级父分类id
-    private List<Object> catelog3List; // 三级子分类
+    private String catalog1Id; // 1级父分类id
+    private List<Catelog3Vo> catalog3List; // 三级子分类
     private String id;
     private String name;
 
-    @AllArgsConstructor
     @NoArgsConstructor
+    @AllArgsConstructor
     @Data
     public static class Catelog3Vo {
-        private String catelog2Id;
+        private String catalog2Id;
         private String id;
         private String name;
     }

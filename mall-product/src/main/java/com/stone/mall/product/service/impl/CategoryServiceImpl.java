@@ -100,9 +100,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             // 每一个一级分类,查到这个一级分类的二级分类
             List<CategoryEntity> entities = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", v.getCatId()));
             // 封装上面查询的结果
-            List<Catelog2Vo> catelog2Vos = null;
+            List<Catelog2Vo> catalog2Vos = null;
             if (entities != null) {
-                catelog2Vos = entities.stream().map(l2 -> {
+                catalog2Vos = entities.stream().map(l2 -> {
                     Catelog2Vo catelog2Vo = new Catelog2Vo(v.getCatId().toString(), null, l2.getCatId().toString(), l2.getName());
                     // 找当前二级分类的三级分类封装成vo
                     List<CategoryEntity> Level3Catelog = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", l2.getCatId()));
@@ -112,12 +112,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                             Catelog2Vo.Catelog3Vo catelog3Vo = new Catelog2Vo.Catelog3Vo(l2.getCatId().toString(), l3.getCatId().toString(), l3.getName());
                             return catelog3Vo;
                         }).collect(Collectors.toList());
-                        catelog2Vo.setCatelog3List(Collections.singletonList(collect1));
+                        catelog2Vo.setCatalog3List(collect1);
                     }
                     return catelog2Vo;
                 }).collect(Collectors.toList());
             }
-            return catelog2Vos;
+            return catalog2Vos;
         }));
         return parent_cid;
     }
