@@ -1,27 +1,28 @@
 package com.stone.mall.product.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.stone.common.utils.PageUtils;
+import com.stone.common.utils.Query;
+import com.stone.mall.product.dao.CategoryDao;
+import com.stone.mall.product.entity.CategoryEntity;
 import com.stone.mall.product.service.CategoryBrandRelationService;
+import com.stone.mall.product.service.CategoryService;
 import com.stone.mall.product.vo.Catelog2Vo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.stone.common.utils.PageUtils;
-import com.stone.common.utils.Query;
-
-import com.stone.mall.product.dao.CategoryDao;
-import com.stone.mall.product.entity.CategoryEntity;
-import com.stone.mall.product.service.CategoryService;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("categoryService")
@@ -29,6 +30,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Autowired
     CategoryBrandRelationService categoryBrandRelationService;
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -93,6 +96,25 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Override
     public Map<String, List<Catelog2Vo>> getCatalogJson() {
+        // 加入缓存Redis,放入的级json字符串
+        String catalogJSON = stringRedisTemplate.opsForValue().get("catalogJSON");
+        // 缓存中没有就从数据库中查询
+        if (StringUtils.isEmpty(catalogJSON)) {
+            Map<String, List<Catelog2Vo>> catalogJsonFromdb = getCatalogJsonFromdb();
+            String s = JSON.toJSONString(catalogJsonFromdb);
+            stringRedisTemplate.opsForValue().set("catalogJSON", s);
+            return catalogJsonFromdb;
+        }
+
+        // 转换为我们指定的JSON格式对象
+        Map<String, List<Catelog2Vo>> result = JSON.parseObject(catalogJSON, new TypeReference<Map<String, List<Catelog2Vo>>>() {
+        });
+
+        return result;
+    }
+
+    // 从数据库中查询得到
+    public Map<String, List<Catelog2Vo>> getCatalogJsonFromdb() {
 
         List<CategoryEntity> selectList = baseMapper.selectList(null);
 
