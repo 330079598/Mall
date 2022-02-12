@@ -30,4 +30,4 @@ logging:
   level:
     com.stone.mall.ware: debug
   file:
-    name: C:\Stone\Code\Java\Logs\ware\ware.log
+    name: /home/stone/code/Java/Logs/ware/ware.log

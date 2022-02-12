@@ -28,4 +28,4 @@ logging:
   level:
     com.stone.mall: debug
   file:
-    name: C:\Stone\Code\Java\Logs\member\member.log
+    name: /home/stone/code/Java/Logs/member/member.log
