@@ -12,8 +12,10 @@ import com.stone.mall.product.entity.CategoryEntity;
 import com.stone.mall.product.service.CategoryBrandRelationService;
 import com.stone.mall.product.service.CategoryService;
 import com.stone.mall.product.vo.Catelog2Vo;
+import com.weicoder.cache.annotation.Cache;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,6 +90,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
     }
 
+    @Cacheable(value = {"category"}, key = "'level1Categorys'")
     @Override
     public List<CategoryEntity> getLevel1Categorys() {
         List<CategoryEntity> entities = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", 0));

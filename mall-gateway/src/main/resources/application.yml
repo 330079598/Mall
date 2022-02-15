@@ -44,10 +44,16 @@ spring:
             - RewritePath=/api(?<segment>/?.*), /renren-fast/$\{segment}
 
 
-        # 配置Nginx
+        # 配置Nginx,给product服务配置网关
         - id: mall_host_route
           uri: lb://mall-product
           predicates:
-            - Host=**.mall.com
+            - Host=mall.com
 
+
+        # 配置Nginx,给search服务配置网关
+        - id: mall_search_route
+          uri: lb://mall-search
+          predicates:
+            - Host=search.mall.com
 
