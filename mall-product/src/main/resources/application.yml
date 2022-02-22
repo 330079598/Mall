@@ -39,4 +39,4 @@ logging:
   level:
     com.stone.mall: debug
   file:
-    name: /home/stone/code/Java/Logs/product/product.log
+    name: C:\stone\Code\Java\Logs\product\product.log
