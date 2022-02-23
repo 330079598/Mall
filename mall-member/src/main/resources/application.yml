@@ -13,6 +13,8 @@
     name: mall-member
 
 
+
+
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
@@ -28,4 +30,4 @@ logging:
   level:
     com.stone.mall: debug
   file:
-    name: C:\Stone\Code\Java\Logs\member\member.log
+    name: C:\stone\Code\Java\Logs\ware\member.log

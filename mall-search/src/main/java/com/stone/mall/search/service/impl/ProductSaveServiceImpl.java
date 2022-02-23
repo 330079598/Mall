@@ -5,7 +5,6 @@ import com.stone.common.to.es.SkuEsModel;
 import com.stone.mall.search.config.MallElasticSearchConfig;
 import com.stone.mall.search.constant.EsConstant;
 import com.stone.mall.search.service.ProductSaveService;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
