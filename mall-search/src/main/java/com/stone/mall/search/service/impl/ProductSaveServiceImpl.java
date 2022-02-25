@@ -30,34 +30,40 @@ import java.util.stream.Collectors;
 @Service
 public class ProductSaveServiceImpl implements ProductSaveService {
 
-    @Autowired
-    RestHighLevelClient restHighLevelClient;
+	@Autowired
+	RestHighLevelClient restHighLevelClient;
 
-    @Override
-    public boolean productStatusUp(List<SkuEsModel> skuEsModelList) throws IOException {
-        // 保存到es中
+	@Override
+	public boolean productStatusUp(List<SkuEsModel> skuEsModelList) throws IOException {
+		// 保存到es中
 
-        // 1. 给es中建立索引,product,建立好映射关系
+		// 1. 给es中建立索引,product,建立好映射关系
 
-        // 2. 给es中保存这些数据
-        BulkRequest bulkRequest = new BulkRequest();
-        for (SkuEsModel model : skuEsModelList) {
-            // 构造器中保存请求
-            IndexRequest indexRequest = new IndexRequest(EsConstant.PRODUCT_INDEX);
-            indexRequest.id(model.getSkuId().toString());
-            String s = JSON.toJSONString(model);
-            indexRequest.source(s, XContentType.JSON);
+		// 2. 给es中保存这些数据
+		BulkRequest bulkRequest = new BulkRequest();
+		for (SkuEsModel model : skuEsModelList) {
+			// 构造器中保存请求
+			IndexRequest indexRequest = new IndexRequest(EsConstant.PRODUCT_INDEX);
+			indexRequest.id(model.getSkuId().toString());
+			String s = JSON.toJSONString(model);
+			indexRequest.source(s, XContentType.JSON);
 
-            bulkRequest.add(indexRequest);
-        }
-        BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, MallElasticSearchConfig.COMMON_OPTIONS);
+			bulkRequest.add(indexRequest);
+		}
+		BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, MallElasticSearchConfig.COMMON_OPTIONS);
 
-        // 如果批量出现错误
-        boolean b = bulk.hasFailures();
-        List<String> collect = Arrays.stream(bulk.getItems()).map(item -> {
-            return item.getId();
-        }).collect(Collectors.toList());
-        log.info("商品上架完成:{}", collect);
-        return b;
-    }
+		// 如果批量出现错误
+		boolean b = bulk.hasFailures();
+		if (b) {
+			List<String> collect = Arrays.stream(bulk.getItems()).map(item -> {
+				return item.getId();
+			}).collect(Collectors.toList());
+			log.error("商品上架错误:{}", collect);
+		}
+		List<String> collect = Arrays.stream(bulk.getItems()).map(item -> {
+			return item.getId();
+		}).collect(Collectors.toList());
+		log.info("商品上架成功:{}", collect);
+		return b;
+	}
 }

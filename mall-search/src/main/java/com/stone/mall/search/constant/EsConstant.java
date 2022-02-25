@@ -7,6 +7,6 @@ package com.stone.mall.search.constant;
  * @Description:
  */
 public class EsConstant {
-    public static final String PRODUCT_INDEX = "product"; //sku数据在es中的索引
-    public static final Integer PRODUCT_PAGESIZE = 2;
+	public static final String PRODUCT_INDEX = "product"; //sku数据在es中的索引
+	public static final Integer PRODUCT_PAGESIZE = 2; // sku数据在es中的分页大小
 }

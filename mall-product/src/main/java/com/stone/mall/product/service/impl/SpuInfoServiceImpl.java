@@ -75,31 +75,34 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 	@Transactional
 	@Override
 	public void saveSpuInfo(SpuSaveVo vo) {
-		// 1.保存spu基本信息
+		// 1.保存spu基本信息 pms_sku_info
 		SpuInfoEntity infoEntity = new SpuInfoEntity();
 		BeanUtils.copyProperties(vo, infoEntity);
 		infoEntity.setCreateTime(new Date());
 		infoEntity.setUpdateTime(new Date());
 		this.saveBatchSpuInfo(infoEntity);
 
-		// 2.保存spu的描述图片
+		// 2.保存spu的描述图片 pms_spu_info_desc
 		List<String> decript = vo.getDecript();
 		SpuInfoDescEntity descEntity = new SpuInfoDescEntity();
 		descEntity.setSpuId(infoEntity.getId());
 		descEntity.setDecript(String.join(",", decript));
 		spuInfoDescService.saveSpuInfoDesc(descEntity);
 
-		// 3.保存spu的图片集
+		// 3.保存spu的图片集 pms_sku_images
+		// 先获取所有图片
 		List<String> images = vo.getImages();
+		// 保存图片,并且保存到对应的spu图片
 		spuImagesService.saveImages(infoEntity.getId(), images);
 
-		// 4.保存spu的规格参数，
+		// 4. 保存spu的规格参数 pms_product_attr_value
 		List<BaseAttrs> baseAttrs = vo.getBaseAttrs();
 		List<ProductAttrValueEntity> collect = baseAttrs.stream().map(attr -> {
 			ProductAttrValueEntity valueEntity = new ProductAttrValueEntity();
 			BeanUtils.copyProperties(attr, valueEntity);
 			AttrEntity byId = attrService.getById(attr.getAttrId());
 			valueEntity.setAttrName(byId.getAttrName());
+			valueEntity.setAttrValue(attr.getAttrValues());
 			valueEntity.setSpuId(infoEntity.getId());
 			return valueEntity;
 		}).collect(Collectors.toList());
@@ -273,9 +276,10 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
 
 			BrandEntity brand = brandService.getById(esModel.getBrandId());
-			esModel.setBrandName(brand.getName());
-			esModel.setBrandImg(brand.getLogo());
-
+			if (brand != null) {
+				esModel.setBrandName(brand.getName());
+				esModel.setBrandImg(brand.getLogo());
+			}
 			CategoryEntity category = categoryService.getById(esModel.getCatalogId());
 			esModel.setCatalogName(category.getName());
 			// 设置热度评分

@@ -1,6 +1,7 @@
 package com.stone.mall.search.service;
 
 import com.stone.mall.search.vo.SearchParam;
+import com.stone.mall.search.vo.SearchResult;
 import org.elasticsearch.action.search.SearchRequest;
 
 /**
@@ -16,5 +17,5 @@ public interface MallSearchService {
 	 * @return: 返回检索的而结果
 	 * @Description:
 	 **/
-	SearchRequest search(SearchParam param);
+	SearchResult search(SearchParam param);
 }
