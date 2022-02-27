@@ -48,7 +48,7 @@ spring:
         - id: mall_host_route
           uri: lb://mall-product
           predicates:
-            - Host=mall.com
+            - Host=mall.com,item.mall.com
 
 
         # 配置Nginx,给search服务配置网关

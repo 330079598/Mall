@@ -3,7 +3,7 @@
 
 <mapper namespace="com.stone.mall.product.dao.AttrGroupDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.stone.mall.product.entity.AttrGroupEntity" id="attrGroupMap">
         <result property="attrGroupId" column="attr_group_id"/>
         <result property="attrGroupName" column="attr_group_name"/>
@@ -12,6 +12,62 @@
         <result property="icon" column="icon"/>
         <result property="catelogId" column="catelog_id"/>
     </resultMap>
+
+    <!--    封装嵌套属性-->
+    <resultMap id="supItemAttrGroupVo" type="com.stone.mall.product.vo.SpuItemAttrGroupVo">
+        <result column="attr_group_name" property="groupName" javaType="string"></result>
+        <collection property="attrs" ofType="com.stone.mall.product.vo.SpuBaseAttrVo">
+            <result column="attr_name" property="attrName" javaType="string"></result>
+            <result column="attr_value" property="attrValue" javaType="string"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getAttrGroupWithAttrsBySpuId" resultMap="supItemAttrGroupVo">
+        <!--     对应的SQL语句
+            select
+               ppav.spu_id,
+               pag.attr_group_name,
+               pag.attr_group_id,
+               attr.attr_id,
+               attr.attr_name,
+               ppav.attr_value
+        from
+            pms_attr_group pag
+
+        left join
+                pms_attr_attrgroup_relation paar on paar.attr_group_id = pag.attr_group_id
+        left join
+                pms_attr attr on attr.attr_id = paar.attr_id
+        left join
+                pms_product_attr_value ppav  on ppav.attr_id=attr.attr_id
+        where
+              pag.catelog_id = 225
+        and
+              ppav.spu_id=3
+        -->
+        select
+        ppav.spu_id,
+        pag.attr_group_name,
+        pag.attr_group_id,
+        attr.attr_id,
+        attr.attr_name,
+        ppav.attr_value
+        from
+        pms_attr_group pag
+
+        left join
+        pms_attr_attrgroup_relation paar on paar.attr_group_id = pag.attr_group_id
+        left join
+        pms_attr attr on attr.attr_id = paar.attr_id
+        left join
+        pms_product_attr_value ppav on ppav.attr_id=attr.attr_id
+        where
+        pag.catelog_id = #{catalogId}
+        and
+        ppav.spu_id=#{spuId}
+
+
+    </select>
 
 
 </mapper>
