@@ -36,28 +36,28 @@ public class ProductSaveServiceImpl implements ProductSaveService {
 
 	@Override
 	public boolean productStatusUp(List<SkuEsModel> skuEsModels) throws IOException {
-		//1.在es中建立索引，建立号映射关系（doc/json/product-mapping.json）
-
-		//2. 在ES中保存这些数据
+		// 1. 批量保存
 		BulkRequest bulkRequest = new BulkRequest();
-		for (SkuEsModel skuEsModel : skuEsModels) {
-			//构造保存请求
+		// 2.构造保存请求
+		for (SkuEsModel esModel : skuEsModels) {
+			// 设置es索引 gulimall_product
 			IndexRequest indexRequest = new IndexRequest(EsConstant.PRODUCT_INDEX);
-			indexRequest.id(skuEsModel.getSkuId().toString());
-			String jsonString = JSON.toJSONString(skuEsModel);
+			// 设置索引id
+			indexRequest.id(esModel.getSkuId().toString());
+			// json格式
+			String jsonString = JSON.toJSONString(esModel);
 			indexRequest.source(jsonString, XContentType.JSON);
+			// 添加到文档
 			bulkRequest.add(indexRequest);
 		}
-
+		// bulk批量保存
 		BulkResponse bulk = esRestClient.bulk(bulkRequest, MallElasticSearchConfig.COMMON_OPTIONS);
-
-		//TODO 如果批量错误
+		// TODO 是否拥有错误
 		boolean hasFailures = bulk.hasFailures();
-
-		List<String> collect = Arrays.stream(bulk.getItems()).map(BulkItemResponse::getId).collect(Collectors.toList());
-
-		log.info("商品上架完成：{}", collect);
-
+		if (hasFailures) {
+			List<String> collect = Arrays.stream(bulk.getItems()).map(item -> item.getId()).collect(Collectors.toList());
+			log.error("商品上架错误：{}", collect);
+		}
 		return hasFailures;
 	}
 }
