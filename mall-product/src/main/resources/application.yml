@@ -1,47 +1,3 @@
-#<<<<<<< HEAD
-#spring:
-#  datasource:
-#    username: root
-#    password: root
-#    url: jdbc:mysql://192.168.19.130/gulimall_pms
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#  cloud:
-#    nacos:
-#      discovery:
-#        server-addr: 127.0.0.1:8848
-#    alicloud:
-#      access-key: LTAI5t6McHdFv4UQHjx7R8ZG
-#      secret-key: b7GJznsO7kksmZzYWuqWbcGKpcYISw
-#      oss:
-#        endpoint: oss-cn-beijing.aliyuncs.com
-#  jackson:
-#    date-format: yyyy-MM-dd HH:mm:ss
-#    time-zone: GMT+8
-#  thymeleaf:
-#    cache: false
-#  redis:
-#    host: 192.168.19.130
-#    port: 6379
-#
-#mybatis-plus:
-#  mapper-locations: classpath:/mapper/**/*.xml
-#  global-config:
-#    db-config:
-#      id-type: auto
-#      logic-delete-value: 1
-#      logic-not-delete-value: 0
-#
-#
-#server:
-#  port: 10000
-#
-## 打印SQL语句并输出到文件中
-#logging:
-#  level:
-#    com.stone.mall: debug
-#  file:
-#    name: C:\Stone\Code\Java\Logs\product\product.log
-#=======
 spring:
   datasource:
     username: root
@@ -84,4 +40,8 @@ logging:
     com.stone.mall: debug
   file:
     name: C:\stone\Code\Java\Logs\product\product.log
-#>>>>>>> Linux
+mall:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10 # 10s

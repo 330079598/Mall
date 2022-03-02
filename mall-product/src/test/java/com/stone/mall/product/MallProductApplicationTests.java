@@ -9,6 +9,8 @@ import com.stone.mall.product.dao.AttrGroupDao;
 import com.stone.mall.product.entity.BrandEntity;
 import com.stone.mall.product.service.BrandService;
 import com.stone.mall.product.service.CategoryService;
+import com.stone.mall.product.service.SkuSaleAttrValueService;
+import com.stone.mall.product.vo.ItemSaleAttrVo;
 import com.stone.mall.product.vo.SpuItemAttrGroupVo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -40,6 +42,8 @@ class MallProductApplicationTests {
 	StringRedisTemplate stringRedisTemplate;
 	@Autowired
 	AttrGroupDao attrGroupDao;
+	@Autowired
+	SkuSaleAttrValueService skuSaleAttrValueService;
 
 	@Test
 	public void testRedis() {
@@ -100,9 +104,16 @@ class MallProductApplicationTests {
 
 	@Test
 	public void testAttrGroupDao() {
-        List<SpuItemAttrGroupVo> attrGroupWithAttrsBySpuId = attrGroupDao.getAttrGroupWithAttrsBySpuId(3L, 225L);
+		List<SpuItemAttrGroupVo> attrGroupWithAttrsBySpuId = attrGroupDao.getAttrGroupWithAttrsBySpuId(3L, 225L);
 		System.out.println(attrGroupWithAttrsBySpuId);
-    }
+	}
+
+
+	@Test
+	void testskuSaleAttrValue() {
+		List<ItemSaleAttrVo> saleAttrsBuSpuId = skuSaleAttrValueService.getSaleAttrsBuSpuId(24L);
+		System.out.println(saleAttrsBuSpuId);
+	}
 
 
 }

@@ -19,6 +19,13 @@
     </properties>
     <dependencies>
 
+        <!-- 自定义配置文件带提示 -->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-configuration-processor</artifactId>
+                    <optional>true</optional>
+                </dependency>
+
         <!-- 引入Redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

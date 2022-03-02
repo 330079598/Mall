@@ -13,7 +13,10 @@
         <result property="catelogId" column="catelog_id"/>
     </resultMap>
 
-    <!--    封装嵌套属性-->
+    <!-- TODO:
+        封装嵌套属性，
+        多表联查的使用
+    -->
     <resultMap id="supItemAttrGroupVo" type="com.stone.mall.product.vo.SpuItemAttrGroupVo">
         <result column="attr_group_name" property="groupName" javaType="string"></result>
         <collection property="attrs" ofType="com.stone.mall.product.vo.SpuBaseAttrVo">
@@ -54,7 +57,6 @@
         ppav.attr_value
         from
         pms_attr_group pag
-
         left join
         pms_attr_attrgroup_relation paar on paar.attr_group_id = pag.attr_group_id
         left join
