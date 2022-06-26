@@ -20,3 +20,9 @@ buildNumber.properties
 .idea
 
 **/.gitignore
+
+**/.iml
+
+**/.vscode
+
+**/node_modules
